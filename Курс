@@ -1,0 +1,90 @@
+using System;
+using System.Collections.Generic;
+
+namespace TaxiManagementApp
+{
+    public enum TaxiStatus
+    {
+        Available,
+        Booked,
+        OnRide
+    }
+
+    public class Taxi
+    {
+        public string RegistrationNumber { get; set; }
+        public string DriverName { get; set; }
+        public TaxiStatus Status { get; set; }
+    }
+
+    public class TaxiAgency
+    {
+        private List<Taxi> taxis;
+
+        public TaxiAgency()
+        {
+            taxis = new List<Taxi>();
+        }
+
+        public void AddTaxi(string registrationNumber, string driverName)
+        {
+            taxis.Add(new Taxi
+            {
+                RegistrationNumber = registrationNumber,
+                DriverName = driverName,
+                Status = TaxiStatus.Available
+            });
+            Console.WriteLine("Taxi added successfully!");
+        }
+
+        public void DisplayTaxis()
+        {
+            Console.WriteLine("Taxis:");
+            foreach (var taxi in taxis)
+            {
+                Console.WriteLine($"Registration Number: {taxi.RegistrationNumber}, Driver Name: {taxi.DriverName}, Status: {taxi.Status}");
+            }
+        }
+
+        // Additional methods for managing bookings, rides, etc. can be added here.
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            TaxiAgency agency = new TaxiAgency();
+
+            while (true)
+            {
+                Console.WriteLine("1. Add Taxi");
+                Console.WriteLine("2. Display Taxis");
+                Console.WriteLine("3. Exit");
+
+                Console.Write("Enter your choice: ");
+                int choice = Convert.ToInt32(Console.ReadLine());
+
+                switch (choice)
+                {
+                    case 1:
+                        Console.Write("Enter Registration Number: ");
+                        string regNumber = Console.ReadLine();
+                        Console.Write("Enter Driver Name: ");
+                        string driverName = Console.ReadLine();
+                        agency.AddTaxi(regNumber, driverName);
+                        break;
+                    case 2:
+                        agency.DisplayTaxis();
+                        break;
+                    case 3:
+                        Console.WriteLine("Exiting program...");
+                        Environment.Exit(0);
+                        break;
+                    default:
+                        Console.WriteLine("Invalid choice. Please try again.");
+                        break;
+                }
+            }
+        }
+    }
+}
